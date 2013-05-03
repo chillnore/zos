@@ -1,4 +1,4 @@
-zos
+ZOS (Zen Of Sword)
 ===
 
-Zen Of Sword, this is an game engine with AS3, etc.
+  Zos是一款游戏引擎，其中包括各种不同语言实现版本，例如AS3，Java，C++等。每种语言实现版本并非同步开发、维护及发布。
