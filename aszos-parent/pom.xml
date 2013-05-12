@@ -1,0 +1,209 @@
+<!--
+  ~ Copyright (c) 2013 keyhom.c@gmail.com.
+  ~
+  ~ This software is provided 'as-is', without any express or implied warranty.
+  ~ In no event will the authors be held liable for any damages arising from
+  ~ the use of this software.
+  ~
+  ~ Permission is granted to anyone to use this software for any purpose
+  ~ excluding commercial applications, and to alter it and redistribute it
+  ~ freely, subject to the following restrictions:
+  ~
+  ~     1. The origin of this software must not be misrepresented; you must not
+  ~     claim that you wrote the original software. If you use this software
+  ~     in a product, an acknowledgment in the product documentation would be
+  ~     appreciated but is not required.
+  ~
+  ~     2. Altered source versions must be plainly marked as such, and must not
+  ~     be misrepresented as being the original software.
+  ~
+  ~     3. This notice may not be removed or altered from any source
+  ~     distribution.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ls.zos.as3</groupId>
+  <artifactId>aszos-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ASZos Parent</name>
+
+  <modules>
+    <module>aszos-core</module>
+    <module>aszos-engine2d</module>
+    <module>aszos-example</module>
+  </modules>
+
+  <prerequisites>
+    <maven>3.0.3</maven>
+  </prerequisites>
+
+  <properties>
+    <flexmojos.debug>true</flexmojos.debug>
+    <flexmojos.skip>false</flexmojos.skip>
+    <flexmojos.version>4.2-beta</flexmojos.version>
+    <lib.sdk.version>4.6.b.23201</lib.sdk.version>
+    <lib.sdk.groupId>com.adobe.flex.framework</lib.sdk.groupId>
+    <playerglobal.classifier>11.1</playerglobal.classifier>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.test.skip>true</maven.test.skip>
+    <lib.scope>external</lib.scope>
+  </properties>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.flexmojos</groupId>
+        <artifactId>flexmojos-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.sonatype.flexmojos</groupId>
+          <artifactId>flexmojos-maven-plugin</artifactId>
+          <version>${flexmojos.version}</version>
+          <extensions>true</extensions>
+          <dependencies>
+            <dependency>
+              <groupId>com.adobe.flex</groupId>
+              <artifactId>compiler</artifactId>
+              <version>${lib.sdk.version}</version>
+              <type>pom</type>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <debug>${flexmojos.debug}</debug>
+            <skip>${flexmojos.skip}</skip>
+            <allowSourcePathOverlap>true</allowSourcePathOverlap>
+            <defines>
+              <property>
+                <name>CONFIG::debug</name>
+                <value>${flexmojos.debug}</value>
+              </property>
+              <property>
+                <name>CONFIG::release</name>
+                <value>!${flexmojos.debug}</value>
+              </property>
+            </defines>
+            <storepass/>
+            <actionscriptFileEncoding>UTF-8</actionscriptFileEncoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>${lib.sdk.groupId}</groupId>
+      <artifactId>playerglobal</artifactId>
+      <version>${lib.sdk.version}</version>
+      <type>swc</type>
+      <classifier>${playerglobal.classifier}</classifier>
+      <scope>${lib.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>${lib.sdk.groupId}</groupId>
+      <artifactId>playerglobal</artifactId>
+      <version>${lib.sdk.version}</version>
+      <type>rb.swc</type>
+      <scope>${lib.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>${lib.sdk.groupId}</groupId>
+      <artifactId>framework</artifactId>
+      <version>${lib.sdk.version}</version>
+      <type>swc</type>
+      <scope>${lib.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>ls.keyhom.69work</groupId>
+      <artifactId>69core</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <type>swc</type>
+      <scope>${lib.scope}</scope>
+    </dependency>
+  </dependencies>
+
+  <developers>
+    <developer>
+      <id>keyhom</id>
+      <name>keyhom.c</name>
+      <email>keyhom.c@gmail.com</email>
+      <roles>
+        <role>designer, developer</role>
+      </roles>
+      <url>http://github.com/keyhom/</url>
+      <timezone>+8</timezone>
+    </developer>
+  </developers>
+
+  <scm>
+    <tag>HEAD</tag>
+    <url>scm:git:https://github.com/keyhom/zos/</url>
+    <connection>scm:git:git://github.com/keyhom/zos.git</connection>
+    <developerConnection>scm:git:https://github.com/keyhom/zos.git</developerConnection>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <layout>default</layout>
+      <url>http://nexus.keyhom.org/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <layout>default</layout>
+      <url>http://nexus.keyhom.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <profiles>
+    <profile>
+      <id>flexunit</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.adobe.flexunit</groupId>
+          <artifactId>flexunit</artifactId>
+          <version>4.0-rc-1</version>
+          <type>swc</type>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>${lib.sdk.groupId}</groupId>
+          <artifactId>common-framework</artifactId>
+          <version>${lib.sdk.version}</version>
+          <type>pom</type>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>attach-sources</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.flexmojos</groupId>
+            <artifactId>flexmojos-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-sources</id>
+                <goals>
+                  <goal>sources</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
