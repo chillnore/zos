@@ -21,11 +21,32 @@
  *     distribution.
  */
 
-package aszos2d {
+package aszos.asset.cache {
 
 /**
- * 仅仅只是用在Internal命名空间上。
+ * <code>IAssetCache</code> is an interface for asset caches.
+ *
+ * @author keyhom
  */
-internal namespace aszos2d = "http://p.keyhom.org/aszos2d";
+public interface IAssetCache {
+
+    /**
+     * Adds an asset to the cache.
+     *
+     * @param key The asset key that can be used to look up the asset.
+     * @param obj The asset data to cache.
+     */
+    function addToCache(key:Object, obj:*):void;
+
+    /**
+     * This should be called by the asset manager when it has successfully acquired
+     * a cached asset (with <tt>getFromCache(key:Object)) and cloned it for use.
+     *
+     * @param key The asset key of the loaded asset (used to retrieve from cache)
+     * @param clone The <strong>clone</strong> of the asset retrieved from the
+     * cache.
+     */
+    function registerAssetClone(key:Object, clone:*):void;
+}
 }
 // vim:ft=as3

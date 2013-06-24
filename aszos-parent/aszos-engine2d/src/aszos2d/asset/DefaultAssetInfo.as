@@ -21,28 +21,46 @@
  *     distribution.
  */
 
-package aszos.display {
+package aszos2d.asset {
 
 import _69.core.api.ILifecycle;
 
-import flash.display.Sprite;
-import flash.events.Event;
+import aszos.asset.IAssetInfo;
+import aszos.asset.IAssetManager;
 
 /**
- * 基于Sprite类，适用于<tt>ASZos</tt>的设计理念的兼容实现。
- *
  * @author keyhom
  */
-public class ZSprite extends Sprite implements ILifecycle {
+public class DefaultAssetInfo implements IAssetInfo, ILifecycle {
 
     /**
-     * Creates a ZSprite instance.
+     * Creates a DefaultAssetInfo instance.
      */
-    public function ZSprite() {
-        super();
+    public function DefaultAssetInfo() {
+    }
 
-        addEventListener(Event.ADDED, _addController, false, 0, true);
-        addEventListener(Event.REMOVED, _removeController, false, 0, true);
+    /** @private */
+    private var _data:Object;
+
+    /** @private */
+    private var _key:Object;
+
+    /** @inheritDoc */
+    public function get key():Object {
+        return _key;
+    }
+
+    /** @private */
+    private var _manager:IAssetManager;
+
+    /** @inheritDoc */
+    public function get manager():IAssetManager {
+        return _manager;
+    }
+
+    /** @inheritDoc */
+    public function openStream():Object {
+        return _data;
     }
 
     /** @inheritDoc */
@@ -53,25 +71,10 @@ public class ZSprite extends Sprite implements ILifecycle {
     public function destory():void {
     }
 
-    /** @private */
-    private function _addController(e:Event):void {
-        if (!aszos_internal::_initialized) {
-            aszos_internal::_initialized = true;
-            init();
-        }
+    /** @inheritDoc */
+    public function toString():String {
+        return "DefaultAssetInfo[]";
     }
-
-    /** @private */
-    private function _removeController(e:Event):void {
-        if (aszos_internal::_initialized)
-            destory();
-    }
-
-    /** @private */
-    aszos_internal var _initialized:Boolean = false;
-
 }
 }
-
-namespace aszos_internal = "ASZosInternal";
 // vim:ft=as3

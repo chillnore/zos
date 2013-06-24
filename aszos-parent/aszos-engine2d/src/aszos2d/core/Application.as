@@ -21,57 +21,50 @@
  *     distribution.
  */
 
-package aszos.display {
+package aszos2d.core {
 
-import _69.core.api.ILifecycle;
+import _69.logging.ILogger;
+import _69.logging.LoggerFactory;
 
-import flash.display.Sprite;
-import flash.events.Event;
+import aszos.display.ZSprite;
 
 /**
- * 基于Sprite类，适用于<tt>ASZos</tt>的设计理念的兼容实现。
- *
  * @author keyhom
  */
-public class ZSprite extends Sprite implements ILifecycle {
+public class Application extends ZSprite {
+
+    CONFIG::debug {
+        /** @private */
+        private static const LOG:ILogger = LoggerFactory.getLogger(Application);
+    }
 
     /**
-     * Creates a ZSprite instance.
+     * Creates an Application instance.
      */
-    public function ZSprite() {
-        super();
-
-        addEventListener(Event.ADDED, _addController, false, 0, true);
-        addEventListener(Event.REMOVED, _removeController, false, 0, true);
-    }
-
-    /** @inheritDoc */
-    public function init():void {
-    }
-
-    /** @inheritDoc */
-    public function destory():void {
-    }
-
-    /** @private */
-    private function _addController(e:Event):void {
-        if (!aszos_internal::_initialized) {
-            aszos_internal::_initialized = true;
-            init();
+    public function Application() {
+        CONFIG::debug {
+            LOG.debug("Constructs an Application.");
         }
     }
 
-    /** @private */
-    private function _removeController(e:Event):void {
-        if (aszos_internal::_initialized)
-            destory();
+    /** @inheritDoc */
+    override public function init():void {
+        super.init();
+
+        CONFIG::debug {
+            LOG.debug("Initializing Application.");
+        }
     }
 
-    /** @private */
-    aszos_internal var _initialized:Boolean = false;
+    /** @inheritDoc */
+    override public function destory():void {
+        super.destory();
+
+        CONFIG::debug {
+            LOG.debug("Destoryed Application.");
+        }
+    }
 
 }
 }
-
-namespace aszos_internal = "ASZosInternal";
 // vim:ft=as3

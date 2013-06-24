@@ -40,5 +40,12 @@
       <type>swc</type>
       <scope>${lib.scope}</scope>
     </dependency>
+    <dependency>
+      <groupId>br.com.stimuli</groupId>
+      <artifactId>loading</artifactId>
+      <version>1.0.133</version>
+      <type>swc</type>
+      <scope>${lib.scope}</scope>
+    </dependency>
   </dependencies>
 </project>

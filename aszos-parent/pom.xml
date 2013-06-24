@@ -21,7 +21,8 @@
   ~     distribution.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ls.zos.as3</groupId>
@@ -47,6 +48,7 @@
     <lib.sdk.version>4.6.b.23201</lib.sdk.version>
     <lib.sdk.groupId>com.adobe.flex.framework</lib.sdk.groupId>
     <playerglobal.classifier>11.1</playerglobal.classifier>
+    <flexmojos.locale>en_US</flexmojos.locale>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.test.skip>true</maven.test.skip>
     <lib.scope>external</lib.scope>
@@ -55,7 +57,6 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
-
     <plugins>
       <plugin>
         <groupId>org.sonatype.flexmojos</groupId>
@@ -114,6 +115,7 @@
       <artifactId>playerglobal</artifactId>
       <version>${lib.sdk.version}</version>
       <type>rb.swc</type>
+      <classifier>${flexmojos.locale}</classifier>
       <scope>${lib.scope}</scope>
     </dependency>
     <dependency>
@@ -149,7 +151,8 @@
     <tag>HEAD</tag>
     <url>scm:git:https://github.com/keyhom/zos/</url>
     <connection>scm:git:git://github.com/keyhom/zos.git</connection>
-    <developerConnection>scm:git:https://github.com/keyhom/zos.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/keyhom/zos.git
+    </developerConnection>
   </scm>
 
   <distributionManagement>

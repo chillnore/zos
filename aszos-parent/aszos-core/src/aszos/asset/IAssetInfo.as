@@ -21,57 +21,29 @@
  *     distribution.
  */
 
-package aszos.display {
-
-import _69.core.api.ILifecycle;
-
-import flash.display.Sprite;
-import flash.events.Event;
+package aszos.asset {
 
 /**
- * 基于Sprite类，适用于<tt>ASZos</tt>的设计理念的兼容实现。
- *
  * @author keyhom
  */
-public class ZSprite extends Sprite implements ILifecycle {
+public interface IAssetInfo {
 
     /**
-     * Creates a ZSprite instance.
+     * The key of this <tt>IAssetInfo</tt>.
      */
-    public function ZSprite() {
-        super();
+    function get key():Object;
 
-        addEventListener(Event.ADDED, _addController, false, 0, true);
-        addEventListener(Event.REMOVED, _removeController, false, 0, true);
-    }
-
-    /** @inheritDoc */
-    public function init():void {
-    }
+    /**
+     * The <tt>IAssetManager</tt> associated with this <tt>IAssetInfo</tt>
+     */
+    function get manager():IAssetManager;
 
     /** @inheritDoc */
-    public function destory():void {
-    }
+    function toString():String;
 
     /** @private */
-    private function _addController(e:Event):void {
-        if (!aszos_internal::_initialized) {
-            aszos_internal::_initialized = true;
-            init();
-        }
-    }
-
-    /** @private */
-    private function _removeController(e:Event):void {
-        if (aszos_internal::_initialized)
-            destory();
-    }
-
-    /** @private */
-    aszos_internal var _initialized:Boolean = false;
+    function openStream():Object;
 
 }
 }
-
-namespace aszos_internal = "ASZosInternal";
 // vim:ft=as3
