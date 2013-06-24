@@ -65,7 +65,7 @@ public final class FrameHandler implements IFrameHandler {
         if (null == timer) {
             timer = new AlternateTimer();
         }
-
+        
         this.timer = timer;
     }
     
@@ -92,25 +92,25 @@ public final class FrameHandler implements IFrameHandler {
     private var timeDelay:Number = 0;
     /** @private */
     private var timeLast:Number = 0;
-
+    
     //--------------------------------------------------------------------------
     //
     // Properties
     //
     //--------------------------------------------------------------------------
-
+    
     //----------------------------------
     // updateThreshold
     //----------------------------------
-
+    
     /** @private */
     private var _updateThreshold:Number = 0;
-
+    
     /** @inheritDoc */
     public function get updateThreshold():Number {
         return _updateThreshold;
     }
-
+    
     /** @private */
     public function set updateThreshold(value:Number):void {
         _updateThreshold = value;
@@ -128,39 +128,41 @@ public final class FrameHandler implements IFrameHandler {
         // calculate tpf
         // update updaters
         // draw canvases
-
-        var t:Number = getTimer();
-        if (!timeLast)
+        
+        while (true) {
+            var t:Number = getTimer();
+            if (!timeLast)
+                timeLast = t;
+            timeDelay += t - timeLast;
             timeLast = t;
-        timeDelay += t - timeLast;
-        timeLast = t;
-
-        if (timeDelay < _updateThreshold) 
-            return false;
-
-        timeDelay -= _updateThreshold;
-        timer.update();
-        
-        var i:int = 0;
-        var len:int = 0;
-        
-        // notified all updaters.
-        for (i = 0, len = updaters.length; i < len; i++) {
-            if (null != updaters[i]) {
-                updaters[i].update(timer);
+            
+            if (timeDelay < _updateThreshold) 
+                return false;
+            
+            timeDelay -= _updateThreshold;
+            timer.update();
+            
+            var i:int = 0;
+            var len:int = 0;
+            
+            // notified all updaters.
+            for (i = 0, len = updaters.length; i < len; i++) {
+                if (null != updaters[i]) {
+                    updaters[i].update(timer);
+                }
             }
-        }
-        
-        // TODO: synchronization after FP 11.4 ??? the multi-thread mode ???.
-        try {
-            for (i = 0, len = canvases.length; i < len; i++) {
-                if (null != canvases[i])
-                    canvases[i].draw();
+            
+            // TODO: synchronization after FP 11.4 ??? the multi-thread mode ???.
+            try {
+                for (i = 0, len = canvases.length; i < len; i++) {
+                    if (null != canvases[i])
+                        canvases[i].draw();
+                }
+            } catch (e:Error) {
+                CONFIG::debug {
+                    LOG.error("UpdateFrames error caught: {0}", e.message, e);
+                };
             }
-        } catch (e:Error) {
-            CONFIG::debug {
-                LOG.error("UpdateFrames error caught: {0}", e.message, e);
-            };
         }
         
         return timer.timePerFrame >= .02;
