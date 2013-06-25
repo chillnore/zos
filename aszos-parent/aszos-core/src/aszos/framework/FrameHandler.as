@@ -89,9 +89,7 @@ public final class FrameHandler implements IFrameHandler {
     /** @private */
     private var timer:AlternateTimer;
     /** @private */
-    private var timeDelay:Number = 0;
-    /** @private */
-    private var timeLast:Number = 0;
+    private var lastTickPosition:int;
     
     //--------------------------------------------------------------------------
     //
@@ -108,7 +106,7 @@ public final class FrameHandler implements IFrameHandler {
     
     /** @inheritDoc */
     public function get updateThreshold():Number {
-        return _updateThreshold;
+        return _updateThreshold > 0 ? _updateThreshold : 1;
     }
     
     /** @private */
@@ -129,17 +127,9 @@ public final class FrameHandler implements IFrameHandler {
         // update updaters
         // draw canvases
         
-        while (true) {
-            var t:Number = getTimer();
-            if (!timeLast)
-                timeLast = t;
-            timeDelay += t - timeLast;
-            timeLast = t;
-            
-            if (timeDelay < _updateThreshold) 
-                return false;
-            
-            timeDelay -= _updateThreshold;
+        var tickPosition:int = getTimer() % 1000 / updateThreshold;
+        if (lastTickPosition != tickPosition) {
+            lastTickPosition = tickPosition;
             timer.update();
             
             var i:int = 0;
