@@ -33,75 +33,88 @@ import flash.utils.getTimer;
  * @author keyhom 
  */
 public class AlternateTimer implements IReadOnlyTimer {
-
+    
     /** @private */
-    private static const _TIMER_RESOLUTION:Number = 1000;
+    private static const TIMER_RESOLUTION:Number = 1000;
     /** @private */
-    private static const _INVERSE_TIMER_RESOLUTION:Number = 1.0 / _TIMER_RESOLUTION;
-
+    private static const INVERSETIMER_RESOLUTION:Number = 1.0 / TIMER_RESOLUTION;
+    
     /**
      * Creates an AlternateTimer instance.
      */
     public function AlternateTimer() {
         _startTime = getTimer();
+        _fps = 0;
+        _tpf = 0;
+        _startTime = 0;
+        _previousTime = 0;
     }
-
-    private var _startTime:Number = 0;
-    private var _previousTime:Number = 0;
-    private var _tpf:Number = 0;
-    private var _fps:Number = 0;
-
+    
+    /** @private */
+    private var _startTime:Number;
+    /** @private */
+    private var _previousTime:Number;
+    
     /**
      * @inheritDoc
      */
     public function get timeInSeconds():Number {
-        return time * _INVERSE_TIMER_RESOLUTION;
+        return time * INVERSETIMER_RESOLUTION;
     }
-
+    
+    /** @private */
+    private var _time:Number;
+    
     /**
      * @inheritDoc
      */
     public function get time():Number {
-        return getTimer() - _startTime;
+        return _time;
     }
-
+    
     /**
      * @inheritDoc
      */
     public function get resolution():Number {
-        return _TIMER_RESOLUTION;
+        return TIMER_RESOLUTION;
     }
-
+    
+    /** @private */
+    private var _fps:Number;
+    
     /**
      * @inheritDoc
      */
     public function get frameRate():Number {
         return _fps;
     }
-
+    
+    /** @private */
+    private var _tpf:Number;
+    
     /**
      * @inheritDoc
      */
     public function get timePerFrame():Number {
         return _tpf;
     }
-
+    
     /**
      * Updates this timer.
      */
     public function update():void {
-        const t:Number = time;
-        _tpf = (t - _previousTime) * _INVERSE_TIMER_RESOLUTION;
+        _time = getTimer() - _startTime;
+        _tpf = (_time - _previousTime) * INVERSETIMER_RESOLUTION;
         _fps = 1.0 / _tpf;
-        _previousTime = t;
+        _previousTime = _time;
     }
-
+    
     /**
      * Resets this timer.
      */
     public function reset():void {
         _startTime = getTimer();
-        _previousTime = time;
+        _previousTime = _time;
     }
 }
 }
