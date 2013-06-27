@@ -105,7 +105,10 @@ public class AlternateTimer implements IReadOnlyTimer {
     public function update():void {
         _time = getTimer() - _startTime;
         _tpf = (_time - _previousTime) * INVERSETIMER_RESOLUTION;
-        _fps = 1.0 / _tpf;
+        if (0 == _fps)
+            _fps = 1.0 / _tpf;
+        else
+            _fps = (_fps + 1.0 / _tpf) / 2;
         _previousTime = _time;
     }
     

@@ -126,7 +126,7 @@ public final class FrameHandler implements IFrameHandler {
         // calculate tpf
         // update updaters
         // draw canvases
-        
+
         var tickPosition:int = getTimer() % 1000 / updateThreshold;
         if (lastTickPosition != tickPosition) {
             lastTickPosition = tickPosition;
