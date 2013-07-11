@@ -159,12 +159,12 @@
     <repository>
       <id>releases</id>
       <layout>default</layout>
-      <url>http://nexus.keyhom.org/content/repositories/releases/</url>
+      <url>http://repository.keyhom.org/content/repositories/releases/</url>
     </repository>
     <snapshotRepository>
       <id>snapshots</id>
       <layout>default</layout>
-      <url>http://nexus.keyhom.org/content/repositories/snapshots/</url>
+      <url>http://repository.keyhom.org/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 

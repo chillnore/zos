@@ -88,31 +88,6 @@ public final class FrameHandler implements IFrameHandler {
     
     /** @private */
     private var timer:AlternateTimer;
-    /** @private */
-    private var lastTickPosition:int;
-    
-    //--------------------------------------------------------------------------
-    //
-    // Properties
-    //
-    //--------------------------------------------------------------------------
-    
-    //----------------------------------
-    // updateThreshold
-    //----------------------------------
-    
-    /** @private */
-    private var _updateThreshold:Number = 0;
-    
-    /** @inheritDoc */
-    public function get updateThreshold():Number {
-        return _updateThreshold > 0 ? _updateThreshold : 1;
-    }
-    
-    /** @private */
-    public function set updateThreshold(value:Number):void {
-        _updateThreshold = value;
-    }
     
     //--------------------------------------------------------------------------
     //
@@ -126,33 +101,29 @@ public final class FrameHandler implements IFrameHandler {
         // calculate tpf
         // update updaters
         // draw canvases
-
-        var tickPosition:int = getTimer() % 1000 / updateThreshold;
-        if (lastTickPosition != tickPosition) {
-            lastTickPosition = tickPosition;
-            timer.update();
-            
-            var i:int = 0;
-            var len:int = 0;
-            
-            // notified all updaters.
-            for (i = 0, len = updaters.length; i < len; i++) {
-                if (null != updaters[i]) {
-                    updaters[i].update(timer);
-                }
+        
+        timer.update();
+        
+        var i:int = 0;
+        var len:int = 0;
+        
+        // notified all updaters.
+        for (i = 0, len = updaters.length; i < len; i++) {
+            if (null != updaters[i]) {
+                updaters[i].update(timer);
             }
-            
-            // TODO: synchronization after FP 11.4 ??? the multi-thread mode ???.
-            try {
-                for (i = 0, len = canvases.length; i < len; i++) {
-                    if (null != canvases[i])
-                        canvases[i].draw();
-                }
-            } catch (e:Error) {
-                CONFIG::debug {
-                    LOG.error("UpdateFrames error caught: {0}", e.message, e);
-                };
+        }
+        
+        // TODO: synchronization after FP 11.4 ??? the multi-thread mode ???.
+        try {
+            for (i = 0, len = canvases.length; i < len; i++) {
+                if (null != canvases[i])
+                    canvases[i].draw();
             }
+        } catch (e:Error) {
+            CONFIG::debug {
+                LOG.error("UpdateFrames error caught: {0}", e.message, e);
+            };
         }
         
         return timer.timePerFrame >= .02;
@@ -160,7 +131,7 @@ public final class FrameHandler implements IFrameHandler {
     
     /** @inheritDoc */
     public function addUpdater(updater:IUpdater):IFrameHandler {
-        if (updater) {
+        if (updater && -1 == updaters.indexOf(updater)) {
             updaters.push(updater);
         }
         return this;
@@ -186,7 +157,7 @@ public final class FrameHandler implements IFrameHandler {
     
     /** @inheritDoc */
     public function addCanvas(canvas:ICanvas):IFrameHandler {
-        if (canvas) {
+        if (canvas && -1 == canvases.indexOf(canvas)) {
             canvases.push(canvas);
         }
         return this;
